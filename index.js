@@ -36,8 +36,6 @@ $( document ).ready(function() {
             makeCalendar();
             break;
         }
-
-
     })  // END UIBUILDER ONCHANGE
 //NEW BRIDE DIALOG
     brideDialog = $( "#brideForm" ).dialog({autoOpen: false, height: 600, width: 500, modal: true, buttons: [ { } ] });
