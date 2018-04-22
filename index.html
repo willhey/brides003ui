@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<script src="/uibuilder/socket.io/socket.io.js"></script>
+<script src="./vendor/jquery/dist/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="./uibuilderfe.min.js"></script>
+
+<script src="./index.js"></script>
+<script src="./utilities.js"></script>
+<link rel="stylesheet" href="./index.css">
+
+<head>
+    <title>bride manager</title>
+    <meta name="description" content="bride manager">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body>
+    <div id="app">
+      <form id="brideFilter">
+         <input type="checkbox" name="brideStatus" value="Active" checked="checked" onchange="prepBrideDropdown()"/>Active
+         <input type="checkbox" name="brideStatus" value="Indicitive" checked="checked" onchange="prepBrideDropdown()"/>Indicitive
+         <input type="checkbox" name="brideStatus" value="Booking" checked="checked" onchange="prepBrideDropdown()"/>Booking
+         <input type="checkbox" name="brideStatus" value="Booked" checked="checked" onchange="prepBrideDropdown()"/>Booked
+        <input type="checkbox" name="brideStatus" value="Closed"  onchange="prepBrideDropdown()"/>Closed
+      </form>
+        <select id="dropdownBrides" onchange="showBride(this)"></select>
+        <button onclick="newBrideForm()">New Bride</button>
+        <button id="changeBrideButton" disabled onclick="changeBrideForm('fromButton', 0, document.getElementById('theBrideMoniker').value)">Change Bride</button>
+        <button id="addChatButton" disabled onclick="addChatForm(document.getElementById('theBrideMoniker').value)">Add Chat</button>
+        <button onclick="myFunction()">Click Me</button>
+    </div>
+
+    <div class="row">
+
+      <div id="theBrideDiplay" class="column">
+          <label for="moniker">Moniker</label>
+          <input type="text" name="moniker" id="theBrideMoniker" readonly class="text ui-widget-content ui-corner-all"><br />
+          <label for="firstName">First Name</label>
+          <input type="text" name="firstName" id="theBrideFirstName" readonly class="text ui-widget-content ui-corner-all"><br />
+          <label for="lastName">Last Name</label>
+          <input type="text" name="lastName" id="theBrideLastName" readonly class="text ui-widget-content ui-corner-all"><br />
+          <label for="initialDate">Initial date</label>
+          <input type="text" name="initialDate" id="theBrideInitialDate" readonly class="text ui-widget-content ui-corner-all"><br />
+          <label for="status">Status</label>
+          <input type="text" name="status" id="theBrideStatus" readonly class="text ui-widget-content ui-corner-all"><br />
+          <label for="weddingDate">Wedding date</label>
+          <input type="text" name="weddingDate" id="theBrideWeddingDate" readonly class="text ui-widget-content ui-corner-all"><br />
+      </div>
+
+
+      <div id="toDo" class="column">
+        <del>if bride booking bumps bride indicitive = chat bug</del><br />
+        <del>Add chat date of chat</del><br />
+        <del>Clear Chat Reminders</del><br />
+        <del>Bank holidays</del><br />
+        Amount due paid<br />
+        <del>Add prices for untaken days</del><br />
+        <del>Change beer icon</del><br />
+        Add caterer to bride<br />
+        <del>Clipboard chats</del><br />
+        <del>extra dialog on rmove chat reminder</del><br />
+      </div>
+
+      <div id="chatDiplay" class="column">
+        <input type="checkbox" id="chatOnlyReminders" name="chatOnlyReminders" value="onlyReminders" onchange="showChat()"/>Only reminders
+        <input type="checkbox" id="chatImportant" name="ChatImportant" value="important" onchange="showChat()"/>Only important
+        <button id="chatCSV" onclick="chatCSV()">Clip</button>
+        <table id = "chatTable"></table>
+
+      </div>
+    </div>
+
+    <div id="calenderDiplay">
+      <table style="width:100%" id = "myTable" border="1"></table>
+    </div>
+
+    <div id="chatForm" title="Add a chat">
+    	<form>
+    		<fieldset>
+          <label for="dialogChatmoniker">Moniker</label>
+    			<input type="text" name="moniker" id="dialogChatMoniker" class="text ui-widget-content ui-corner-all"><br />
+    			<textarea name="text" id="dialogTextArea" class="text ui-widget-content ui-corner-all"></textarea><br />
+          <label for="daysToReminder">Days To Reminder</label>
+    			<input type="number" name="dateChat" id="daysToReminder" min="0" max="365" class="text ui-widget-content ui-corner-all"><br />
+          <label for="chatFormImportant">Important</label>
+          <input type="checkbox" name="ChatImportant" id = "chatFormImportant" value="important" "/>
+
+    			<!-- Allow form submission with keyboard without duplicating the dialog button -->
+    			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    		</fieldset>
+    	</form>
+    </div>
+
+
+
+    <div id="brideForm" title="Create new bride">
+    	<form>
+    		<fieldset>
+    			<label for="moniker">Moniker</label>
+    			<input type="text" name="moniker" id="dialogMoniker" value="Jane S" class="text ui-widget-content ui-corner-all"><br />
+    			<label for="First Name">First Name</label>
+    			<input type="text" name="firstName" id="dialogFirstName" value="Jane" class="text ui-widget-content ui-corner-all"><br />
+    			<label for="Last Name">Last Name</label>
+    			<input type="text" name="lastName" id="dialogLastName" value="Smith" class="text ui-widget-content ui-corner-all"><br />
+          <label for="weddingDate">Wedding Date</label>
+    			<input type="text" name="weddingDate" id="dialogWeddingDate" value="" class="text ui-widget-content ui-corner-all"><br />
+          <label for="weddingStatus">Status</label>
+    			<input type="text" name="weddingStatus" id="dialogStatus" value="" class="text ui-widget-content ui-corner-all"><br />
+          <div id="stateRadio" style="width:150px">
+            <input type="radio" id="stateActive" name="radioStatus">
+            <label for="stateActive">Active</label>
+            <input type="radio" id="stateIndicitive" name="radioStatus">
+            <label for="stateIndicitive">Indicitive</label>
+            <input type="radio" id="stateBooking" name="radioStatus">
+            <label for="stateBooking">Booking</label>
+            <input type="radio" id="stateBooked" name="radioStatus">
+            <label for="stateBooked">Booked</label>
+            <input type="radio" id="stateClosed" name="radioStatus">
+            <label for="stateClosed">Closed</label>
+          </div>
+
+    			<!-- Allow form submission with keyboard without duplicating the dialog button -->
+    			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    		</fieldset>
+    	</form>
+    </div>
+
+    <div id="selectBrideForm" title="Select bride">   </div>
+
+</body>
+
+</html>
