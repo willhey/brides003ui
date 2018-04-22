@@ -1,4 +1,3 @@
-
 var dialog
 var brides = {};
 var chat = {};
