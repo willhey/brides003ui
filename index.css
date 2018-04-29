@@ -15,6 +15,11 @@ textarea {
     resize: none;
 }
 
+
+#contactAddress{
+    height: 50px;
+}
+
 /* Create three equal columns that floats next to each other */
 .column {
     float: left;
@@ -39,7 +44,7 @@ textarea {
 #chatDiplay{
   border:1px  solid black;
   table-layout: auto;
-  width: 400px;
+  width: 350px;
   height: 200px;
   overflow-y: auto;
 }
@@ -52,17 +57,20 @@ textarea {
   overflow-y: auto;
 }
 
-
+#contactDiplay{
+  border:1px  solid black;
+  table-layout: auto;
+  width: 250px;
+  height: 200px;
+  overflow-y: auto;
+}
 
 #toDo{
   border:1px  solid black;
-  width: 200px;
+  table-layout: auto;
+  width: 250px;
   height: 200px;
-}
-
-#taskTable{
-  width:100%;
-  border:1px;
+  overflow-y: auto;
 }
 
 [tableStyle = firstCol]
@@ -89,26 +97,24 @@ textarea {
   background-color:white;
   width: 15px;
 }
-table,th,td
-	{
+table,th,td	{
 		border:2px solid blue;
 	}
-	table
-	{
-		border-collapse:collapse;
+table	{
+	border-collapse:collapse;
     table-layout: fixed;
-
-	}
-	td
-	{
-		height:20px;
+}
+td{
+    height:20px;
     font-size:12px;
+}
+th{
+    height:20px;
+    font-size:12px;
+}
 
-	}
-
-
-  input[type='radio'], label{
-      vertical-align: baseline;
-      padding: 10px;
-      margin: 10px;
-   }
+input[type='radio'], label{
+    vertical-align: baseline;
+    padding: 10px;
+    margin: 10px;
+}
